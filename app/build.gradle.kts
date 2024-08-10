@@ -1,3 +1,5 @@
+import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -70,13 +72,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation (libs.play.services.ads)
-    implementation ("io.coil-kt:coil-compose:2.2.2")
-    implementation ("com.google.accompanist:accompanist-drawablepainter:0.25.1")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.6.8")
-    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation (libs.accompanist.drawablepainter)
+    implementation(libs.coil.compose)
 
-    implementation("androidx.annotation:annotation:1.0.0")
-    implementation ("com.facebook.android:audience-network-sdk:6.17.0")
-//    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.annotation)
+    implementation (libs.audience.network.sdk)
 }

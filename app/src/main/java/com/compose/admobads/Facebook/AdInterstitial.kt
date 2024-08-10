@@ -9,9 +9,6 @@ import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAd
 import com.facebook.ads.InterstitialAdListener
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 class AdInterstitial(context: Context) {
 
@@ -31,13 +28,17 @@ class AdInterstitial(context: Context) {
         }
     }
 
-
     fun ShowInterstitilAd(activity: Activity, onShowInterstitial: OnShowInterstitial) {
         this.onShowInterstitial = onShowInterstitial
 
         if (Constant.AD_SHOW) {
-
-            mInterstitialAd = InterstitialAd(context,Constant.FACEBOOK_INTERSTITIAL_AD_ID)
+            mInterstitialAd = InterstitialAd(
+                context, if (Constant.IS_TEST) {
+                    "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"
+                } else {
+                    Constant.FACEBOOK_INTERSTITIAL_AD_ID
+                }
+            )
             val interstitialAdListener = object : InterstitialAdListener {
                 override fun onError(p0: Ad?, p1: AdError?) {
                     Log.d(TAG, p1.toString())
@@ -67,7 +68,9 @@ class AdInterstitial(context: Context) {
                     onShowInterstitial(true)
                 }
             }
-            mInterstitialAd!!.loadAd(mInterstitialAd!!.buildLoadAdConfig().withAdListener(interstitialAdListener).build());
+            mInterstitialAd!!.loadAd(
+                mInterstitialAd!!.buildLoadAdConfig().withAdListener(interstitialAdListener).build()
+            );
 
         } else {
             onShowInterstitial(false)

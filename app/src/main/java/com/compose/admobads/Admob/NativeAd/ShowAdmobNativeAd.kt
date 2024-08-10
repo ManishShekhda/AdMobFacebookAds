@@ -25,12 +25,13 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.android.gms.ads.nativead.NativeAd
 
 @Composable
-fun ShowNativeAdView(nativeAd: NativeAd?) {
+fun ShowAdmobNativeAd(nativeAd: NativeAd?) {
 
     if (nativeAd != null) {
         NativeAdViewComponse { nativeAdView ->
@@ -97,6 +98,7 @@ fun ShowNativeAdView(nativeAd: NativeAd?) {
                                     fontSize = 14.sp,
                                     color = Color.Black,
                                     fontWeight = FontWeight.Bold,
+                                    overflow = TextOverflow.Ellipsis,
                                     style = TextStyle(
                                         platformStyle = PlatformTextStyle(
                                             includeFontPadding = false
@@ -110,7 +112,6 @@ fun ShowNativeAdView(nativeAd: NativeAd?) {
                         Row(
                             Modifier
                                 .fillMaxWidth()
-                                .wrapContentSize()
                                 .padding(start = 5.dp)
                         ) {
                             NativeAdViewLayout(getView = {
@@ -119,6 +120,7 @@ fun ShowNativeAdView(nativeAd: NativeAd?) {
                                 Text(
                                     text = nativeAd.body ?: "-",
                                     color = Color.Black,
+                                    overflow = TextOverflow.Ellipsis,
                                     fontSize = 12.sp,
                                     style = TextStyle(
                                         platformStyle = PlatformTextStyle(
@@ -242,6 +244,7 @@ fun ShowSmallNativeAdView(nativeAd: NativeAd?) {
                                     text = nativeAd.headline ?: "-",
                                     fontSize = 14.sp,
                                     color = Color.Black,
+                                    overflow = TextOverflow.Ellipsis,
                                     fontWeight = FontWeight.Bold,
                                     style = TextStyle(
                                         platformStyle = PlatformTextStyle(
@@ -265,6 +268,7 @@ fun ShowSmallNativeAdView(nativeAd: NativeAd?) {
                                 Text(
                                     text = nativeAd.body ?: "-",
                                     color = Color.Black,
+                                    overflow = TextOverflow.Ellipsis,
                                     fontSize = 10.sp,
                                     style = TextStyle(
                                         platformStyle = PlatformTextStyle(
@@ -279,7 +283,7 @@ fun ShowSmallNativeAdView(nativeAd: NativeAd?) {
 
                     Spacer(modifier = Modifier.width(5.dp))
 
-                    com.compose.admobads.Facebook.NativeAd.NativeAdViewLayout(getView = {
+                    NativeAdViewLayout(getView = {
                         nativeAdView.callToActionView = it
                     }) {
                         Box(

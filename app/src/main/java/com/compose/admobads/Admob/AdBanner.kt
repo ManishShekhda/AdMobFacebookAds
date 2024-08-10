@@ -58,10 +58,18 @@ fun onShowBanner(onShowBanner: OnShowBanner, boolean: Boolean) {
 
 @Composable
 fun BannerContainer(activity: Activity, onShowBanner: OnShowBanner) {
-    Box(Modifier.fillMaxWidth().height(60.dp), contentAlignment = Alignment.Center, ) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(60.dp), contentAlignment = Alignment.Center
+    ) {
         AndroidView(factory = {
             val adView = AdView(activity)
-            adView.adUnitId = Constant.ADMOB_BANNER_AD_ID
+            adView.adUnitId = if (Constant.IS_TEST) {
+                "ca-app-pub-3940256099942544/6300978111"
+            } else {
+                Constant.ADMOB_BANNER_AD_ID
+            }
             adView.setAdSize(AdSize.BANNER)
 
             val adRequest = AdRequest.Builder().build()

@@ -34,7 +34,11 @@ class AdInterstitial(context: Context) {
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(
             context,
-            Constant.ADMOB_INTERSTITIAL_AD_ID,
+            if (Constant.IS_TEST) {
+                "ca-app-pub-3940256099942544/8691691433"
+            } else {
+                Constant.ADMOB_INTERSTITIAL_AD_ID
+            },
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -96,7 +100,11 @@ class AdInterstitial(context: Context) {
                 val adRequest = AdRequest.Builder().build()
                 InterstitialAd.load(
                     context,
-                    Constant.ADMOB_INTERSTITIAL_AD_ID,
+                    if (Constant.IS_TEST) {
+                        "ca-app-pub-3940256099942544/8691691433"
+                    } else {
+                        Constant.ADMOB_INTERSTITIAL_AD_ID
+                    },
                     adRequest,
                     object : InterstitialAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -109,38 +117,39 @@ class AdInterstitial(context: Context) {
                         override fun onAdLoaded(interstitialAd: InterstitialAd) {
                             Log.d(TAG, "Ad was loaded.")
                             mInterstitialAd = interstitialAd
-                            mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                                override fun onAdClicked() {
-                                    // Called when a click is recorded for an ad.
-                                    Log.d(TAG, "Ad was clicked.")
-                                }
+                            mInterstitialAd?.fullScreenContentCallback =
+                                object : FullScreenContentCallback() {
+                                    override fun onAdClicked() {
+                                        // Called when a click is recorded for an ad.
+                                        Log.d(TAG, "Ad was clicked.")
+                                    }
 
-                                override fun onAdDismissedFullScreenContent() {
-                                    // Called when ad is dismissed.
-                                    Log.d(TAG, "Ad dismissed fullscreen content.")
-                                    mInterstitialAd = null
-                                    LoadAds()
-                                    onShowInterstitial(true)
-                                }
+                                    override fun onAdDismissedFullScreenContent() {
+                                        // Called when ad is dismissed.
+                                        Log.d(TAG, "Ad dismissed fullscreen content.")
+                                        mInterstitialAd = null
+                                        LoadAds()
+                                        onShowInterstitial(true)
+                                    }
 
-                                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                                    // Called when ad fails to show.
-                                    Log.e(TAG, "Ad failed to show fullscreen content.")
-                                    mInterstitialAd = null
-                                    LoadAds()
-                                    onShowInterstitial(false)
-                                }
+                                    override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                                        // Called when ad fails to show.
+                                        Log.e(TAG, "Ad failed to show fullscreen content.")
+                                        mInterstitialAd = null
+                                        LoadAds()
+                                        onShowInterstitial(false)
+                                    }
 
-                                override fun onAdImpression() {
-                                    // Called when an impression is recorded for an ad.
-                                    Log.d(TAG, "Ad recorded an impression.")
-                                }
+                                    override fun onAdImpression() {
+                                        // Called when an impression is recorded for an ad.
+                                        Log.d(TAG, "Ad recorded an impression.")
+                                    }
 
-                                override fun onAdShowedFullScreenContent() {
-                                    // Called when ad is shown.
-                                    Log.d(TAG, "Ad showed fullscreen content.")
+                                    override fun onAdShowedFullScreenContent() {
+                                        // Called when ad is shown.
+                                        Log.d(TAG, "Ad showed fullscreen content.")
+                                    }
                                 }
-                            }
                             if (mInterstitialAd != null) {
                                 mInterstitialAd!!.show(activity)
                             } else {

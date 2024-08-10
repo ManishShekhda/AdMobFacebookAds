@@ -1,51 +1,22 @@
 package com.compose.admobads.Facebook.NativeAd
 
+import android.view.View
 import android.widget.LinearLayout
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.viewinterop.AndroidView
-import com.facebook.ads.MediaView
+import com.facebook.ads.NativeAdLayout
 
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun NativeAdViewSection(adType: Int, nativeAdState: AdState, rememberNativeAdState: NativeAdState?) {
-
-    rememberNativeAdState?.let {
-        val nativeAd by it.nativeAd.observeAsState()
-        AnimatedContent(targetState = nativeAdState.isSuccess, label = "") { success ->
-            if (success) {
-                // NativeADView is Here
-                Column(modifier = Modifier.wrapContentSize()){
-                    if (adType == 1) {
-//                        ShowSmallNativeAdView(nativeAd = nativeAd)
-                    }else{
-                        ShowNativeAdView(nativeAd = nativeAd)
-                    }
-
-                }
-            } else {
-//                Box(modifier = Modifier.size(20.dp)) {
-//                    CircularProgressIndicator(color = Color.Blue)
-//                }
-            }
-
-        }
-    }
-
-}
 
 @Composable
 fun NativeAdViewComponse(
-    modifier: Modifier = Modifier, content: @Composable (nativeAdView: LinearLayout) -> Unit
+    modifier: Modifier = Modifier, content: @Composable (nativeAdView: NativeAdLayout) -> Unit
 ) = AndroidView(modifier = modifier, factory = {
-    LinearLayout(it)
+    NativeAdLayout(it)
 }, update = {
     val componseView = ComposeView(it.context)
     it.removeAllViews()
@@ -56,14 +27,65 @@ fun NativeAdViewComponse(
 
 
 @Composable
-fun NativeAdMediaView(modifier: Modifier) {
+fun NativeAdMediaView(
+    modifier: Modifier,
+    onMediaGet: MediaView
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AndroidView(factory = { context ->
-            MediaView(context)
+            onMediaGet
+        })
+    }
+}
+
+@Composable
+fun NativeAdClickView(
+    modifier: Modifier,
+    onMediaGet: View
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AndroidView(factory = { context ->
+            onMediaGet
+        })
+    }
+}
+
+@Composable
+fun AdOptionsView(
+    modifier: Modifier,
+    onMediaGet: LinearLayout
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AndroidView(factory = { context ->
+            onMediaGet
+        })
+    }
+}
+
+@Composable
+fun NativeAdMediaViewLarge(
+    modifier: Modifier,
+    onMediaGet: MediaView
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        AndroidView(factory = { context ->
+            onMediaGet
         })
     }
 }

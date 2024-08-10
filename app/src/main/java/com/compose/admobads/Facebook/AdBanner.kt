@@ -17,7 +17,6 @@ import com.facebook.ads.AdError
 import com.facebook.ads.AdListener
 import com.facebook.ads.AdSize
 import com.facebook.ads.AdView
-import com.google.android.gms.ads.LoadAdError
 
 class AdBanner(context: Context) {
 
@@ -59,29 +58,38 @@ fun onShowBanner(onShowBanner: OnShowBanner, boolean: Boolean) {
 
 @Composable
 fun BannerContainer(activity: Activity, onShowBanner: OnShowBanner) {
-    Box(Modifier.fillMaxWidth().height(60.dp), contentAlignment = Alignment.Center, ) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(60.dp), contentAlignment = Alignment.Center
+    ) {
         AndroidView(factory = {
-            val adView = AdView(activity,Constant.FACEBOOK_BANNER_AD_ID, AdSize.BANNER_HEIGHT_50)
+            val adView = AdView(
+                activity, if (Constant.IS_TEST) {
+                    "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"
+                } else {
+                    Constant.FACEBOOK_BANNER_AD_ID
+                }, AdSize.BANNER_HEIGHT_50
+            )
 
+            val adListener = object : AdListener {
+                override fun onError(p0: Ad?, p1: AdError?) {
+                    onShowBanner(onShowBanner, false)
+                }
 
-           val adListener = object : AdListener {
-               override fun onError(p0: Ad?, p1: AdError?) {
-                   onShowBanner(onShowBanner, false)
-               }
+                override fun onAdLoaded(p0: Ad?) {
+                    onShowBanner(onShowBanner, true)
+                }
 
-               override fun onAdLoaded(p0: Ad?) {
-                   onShowBanner(onShowBanner, true)
-               }
+                override fun onAdClicked(p0: Ad?) {
 
-               override fun onAdClicked(p0: Ad?) {
-                   TODO("Not yet implemented")
-               }
+                }
 
-               override fun onLoggingImpression(p0: Ad?) {
-                   TODO("Not yet implemented")
-               }
+                override fun onLoggingImpression(p0: Ad?) {
 
-           }
+                }
+
+            }
             adView.loadAd(adView.buildLoadAdConfig().withAdListener(adListener).build())
 
             adView
