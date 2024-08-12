@@ -22,4 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "AdMobAds"
 include(":app")
- 
+include(":AdMobFacebookAds")
