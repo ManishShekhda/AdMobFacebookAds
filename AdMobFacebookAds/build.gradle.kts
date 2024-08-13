@@ -55,9 +55,7 @@ publishing {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
     implementation(libs.material3)
-//    implementation(libs.androidx.activity.compose)
 
     implementation (libs.play.services.ads)
     implementation (libs.accompanist.drawablepainter)
