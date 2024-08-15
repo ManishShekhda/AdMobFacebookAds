@@ -43,7 +43,7 @@ android {
 
 publishing {
     publications {
-        // Creates a Maven publication called "release".
+
        register<MavenPublication>("release"){
            afterEvaluate {
                from(components["release"])
